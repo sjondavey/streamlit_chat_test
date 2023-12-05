@@ -19,6 +19,7 @@ authenticator = stauth.Authenticate(
 name, authentication_status, username = authenticator.login('Login', 'sidebar') # location is 'sidebar' or 'main'
 
 if authentication_status:
+    authenticator.logout('Logout', 'sidebar')
 
     if "openai_model" not in st.session_state:
         st.session_state["openai_model"] = "gpt-3.5-turbo"
