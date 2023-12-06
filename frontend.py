@@ -51,11 +51,12 @@ if authentication_status:
     st.session_state["logger"].info("Creating chat_input. Waiting for input")
     prompt = st.chat_input("What is up?")
     if prompt:
-        st.session_state["logger"].info(f"----> Value of prompt input is: {prompt}")
-        st.session_state.messages.append({"role": "user", "content": prompt})
+        previous_prompt = prompt
+        st.session_state["logger"].info(f"----> Value of prompt input is: {previous_prompt}")
+        st.session_state.messages.append({"role": "user", "content": previous_prompt})
         with st.chat_message("user"):
-            st.markdown(prompt)
-            
+            st.markdown(previous_prompt)
+
         with st.status('Running'):
             with st.chat_message("assistant"):
                 message_placeholder = st.empty()
