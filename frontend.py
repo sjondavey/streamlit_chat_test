@@ -33,6 +33,7 @@ name, authentication_status, username = authenticator.login('Login', 'sidebar') 
 if authentication_status:
     st.session_state["logger"].info(f"User is authenticated")
     authenticator.logout('Logout', 'sidebar')
+
     if st.session_state['authentication_status'] != True:
         st.session_state["logger"].info(f"User has manually logged out")
 
@@ -47,6 +48,7 @@ if authentication_status:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
+    st.session_state["logger"].info("Creating chat_input. Waiting for input")
     if prompt := st.chat_input("What is up?"):
         st.session_state["logger"].info(f"----> Value of prompt input is: {prompt}")
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -68,6 +70,8 @@ if authentication_status:
             message_placeholder.markdown(full_response)
             st.session_state["logger"].info(f"Response added to messages")
             st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+    st.session_state["logger"].info("End of loop")
 
 elif authentication_status == False:
     st.session_state["logger"].info(f"User is not authenticated because some combination of their username or password is incorrect")
