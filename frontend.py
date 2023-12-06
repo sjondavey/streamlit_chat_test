@@ -56,6 +56,7 @@ if authentication_status:
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
+            st.session_state["logger"].info(f"About to call the API")
             response = openai.chat.completions.create(
                 model=st.session_state["openai_model"],
                 messages=st.session_state.messages,
@@ -65,7 +66,8 @@ if authentication_status:
                 full_response += (part.choices[0].delta.content or "")
                 message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+            st.session_state["logger"].info(f"Response added to messages")
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 elif authentication_status == False:
     st.session_state["logger"].info(f"User is not authenticated because some combination of their username or password is incorrect")
