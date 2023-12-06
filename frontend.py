@@ -49,27 +49,29 @@ if authentication_status:
             st.markdown(message["content"])
 
     st.session_state["logger"].info("Creating chat_input. Waiting for input")
-    if prompt := st.chat_input("What is up?"):
+    prompt = st.chat_input("What is up?")
+    if prompt:
         st.session_state["logger"].info(f"----> Value of prompt input is: {prompt}")
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
-
-        with st.chat_message("assistant"):
-            message_placeholder = st.empty()
-            full_response = ""
-            st.session_state["logger"].info(f"About to call the API")
-            response = openai.chat.completions.create(
-                model=st.session_state["openai_model"],
-                messages=st.session_state.messages,
-                stream=True,
-            )
-            for part in response:
-                full_response += (part.choices[0].delta.content or "")
-                message_placeholder.markdown(full_response + "▌")
-            message_placeholder.markdown(full_response)
-            st.session_state["logger"].info(f"Response added to messages")
-            st.session_state.messages.append({"role": "assistant", "content": full_response})
+            
+        with st.status('Running'):
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
+                st.session_state["logger"].info(f"About to call the API")
+                response = openai.chat.completions.create(
+                    model=st.session_state["openai_model"],
+                    messages=st.session_state.messages,
+                    stream=True,
+                )
+                for part in response:
+                    full_response += (part.choices[0].delta.content or "")
+                    message_placeholder.markdown(full_response + "▌")
+                message_placeholder.markdown(full_response)
+                st.session_state["logger"].info(f"Response added to messages")
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
 
     st.session_state["logger"].info("End of loop")
 
