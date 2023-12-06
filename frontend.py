@@ -29,8 +29,6 @@ def check_password():
     def password_entered():
         """Checks whether a password entered by the user is correct."""
         pwd_raw = st.session_state['password']
-        st.session_state["logger"].info(f"Entered {st.session_state['password']}")
-        st.session_state["logger"].info(f"Hashed password {pwd_raw}")
         if st.session_state["username"] in st.secrets[
             "passwords"
         ] and bcrypt.checkpw(
