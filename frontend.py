@@ -13,7 +13,7 @@ if "logger" not in st.session_state:
     st.session_state["logger"].setLevel(logging.INFO)
     logging.basicConfig(level=logging.INFO)
     st.session_state["logger"].info("-----------------------------------")
-    st.session_state["logger"].info("Logger started")
+    st.session_state["logger"].debug("Logger started")
 
 
 def check_password():
