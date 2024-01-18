@@ -58,7 +58,7 @@ if not check_password():
 
 st.title("ChatGPT-like clone")
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets['openai']['OPENAI_API_KEY']
 
 
 
